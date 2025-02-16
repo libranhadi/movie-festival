@@ -14,13 +14,6 @@ export const useAuthStore = defineStore("auth", {
     },
     setUser(userData: Record<string, any> | null) {
       this.user = userData;
-      if (userData != null && userData != undefined) {
-        if(userData.authlevel == "Admin") {
-            return navigateTo("/admin");
-        } else {
-            return navigateTo("/home");
-        }
-      }
     },
     logout() {
       this.setToken(null);

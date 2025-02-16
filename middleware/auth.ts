@@ -21,10 +21,5 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if (to.path !== "/home") {
       return navigateTo("/home");
     }
-  } else {
-    if (to.path !== "/admin") {
-      return navigateTo("/admin");
-    }
   }
-
 });

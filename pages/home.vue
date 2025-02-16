@@ -3,6 +3,12 @@
       <nav class="bg-gray-800 p-4 text-white flex justify-between items-center">
         <h1 class="text-xl font-bold">Movies App</h1>
         <div>
+          <NuxtLink v-if="authStore.user && authStore.user.authlevel === 'Admin'" 
+                    to="/admin" 
+                    class="ml-2 px-4 py-2 bg-blue-500 text-white rounded">
+            Dashboard
+          </NuxtLink>
+
           <button v-if="!authStore.user" @click="showLoginModal = true" class="px-4 py-2 bg-blue-500 rounded">Login</button>
           <button v-if="!authStore.user" @click="showRegisterModal = true" class="ml-2 px-4 py-2 bg-green-500 rounded">Register</button>
           <button v-if="authStore.user" @click="logout" class="ml-2 px-4 py-2 bg-red-500 rounded">Logout</button>

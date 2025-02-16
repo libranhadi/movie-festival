@@ -15,11 +15,15 @@
       <nav>
         <ul>
           <li>
+            <NuxtLink to="/home" class="block py-2 px-4 hover:bg-gray-800 hover:text-[#D1F8EF] rounded">Home</NuxtLink>
+          </li>
+          <li>
             <NuxtLink to="/admin" class="block py-2 px-4 hover:bg-gray-800 hover:text-[#D1F8EF] rounded">Dashboard</NuxtLink>
           </li>
           <li>
             <NuxtLink to="/admin/movies" class="block py-2 px-4 hover:bg-gray-800 hover:text-[#D1F8EF] rounded">Movies</NuxtLink>
           </li>
+ 
         </ul>
       </nav>
     </aside>
