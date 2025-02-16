@@ -3,9 +3,9 @@
       <nav class="bg-gray-800 p-4 text-white flex justify-between items-center">
         <h1 class="text-xl font-bold">Movies App</h1>
         <div>
-          <button v-if="!user" @click="showLoginModal = true" class="px-4 py-2 bg-blue-500 rounded">Login</button>
-          <button v-if="!user" @click="showRegisterModal = true" class="ml-2 px-4 py-2 bg-green-500 rounded">Register</button>
-          <button v-if="user" @click="logout" class="ml-2 px-4 py-2 bg-red-500 rounded">Logout</button>
+          <button v-if="!authStore.user" @click="showLoginModal = true" class="px-4 py-2 bg-blue-500 rounded">Login</button>
+          <button v-if="!authStore.user" @click="showRegisterModal = true" class="ml-2 px-4 py-2 bg-green-500 rounded">Register</button>
+          <button v-if="authStore.user" @click="logout" class="ml-2 px-4 py-2 bg-red-500 rounded">Logout</button>
         </div>
       </nav>
 
@@ -30,7 +30,7 @@
             <p class="text-sm"><strong class="text-lg">Artists :</strong> {{ movie.artist }}</p>
             <p class="text-sm"><strong class="text-lg">Genres:</strong> {{ movie.genre }}</p>
             <p class="text-sm"><strong class="text-lg">Duration:</strong> {{ movie.duration }} minutes</p>
-            <a :href="movie.url" class="text-blue-500 mt-2 block" v-if="user">Watch Now</a>
+            <a :href="movie.url" class="text-blue-500 mt-2 block"  v-if="authStore.user">Watch Now</a>
           </div>
         </div>
 
@@ -59,9 +59,11 @@
   <script setup>
   import { ref, onMounted, watch, computed } from "vue";
   import { useDebounceFn } from "@vueuse/core"; 
+  import { useAuthStore } from "~/store/auth"
   import Modal from "@/components/Modal.vue";
   import LoginForm from "@/components/LoginForm.vue";
   import RegisterForm from "@/components/RegisterForm.vue";
+
 
   const user = useState("user", () => null);
   const searchQuery = ref("");
@@ -72,6 +74,7 @@
   const showLoginModal = ref(false);
   const showRegisterModal = ref(false);
   const successMessage = ref("");
+  const authStore = useAuthStore();
 
   const fetchMovies = async () => {
     const response = await $fetch(`/api/list-movies`, {
@@ -87,21 +90,9 @@
   const debouncedFetchMovies = useDebounceFn(fetchMovies, 300);
 
   const checkUser = async () => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      try {
-        const data = await $fetch("/api/auth/check", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        user.value = data?.user || null;
-      } catch (error) {
-        user.value = null;
-      }
-    } 
+    await authStore.fetchUser();
   };
+
 
   const handleRegistration = () => {
     checkUser();
@@ -124,8 +115,8 @@
   };
 
   const logout = async () => {
-    localStorage.removeItem('authToken')
-    user.value = null;
+    authStore.setUser(null)
+    authStore.logout();
   };
 
   onMounted(() => {

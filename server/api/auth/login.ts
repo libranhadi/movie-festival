@@ -33,5 +33,5 @@ export default defineEventHandler(async (event) => {
       { expiresIn: "7d" }
     );
 
-  return { success: true, message: "Login successful.", token: token};
+  return { success: true, message: "Login successful.", token: token, user : {authemail, authlevel}};
 });

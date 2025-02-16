@@ -46,6 +46,8 @@
 <script setup>
 import { ref } from 'vue';
 import { nextTick } from "vue";
+import { useAuthStore } from "~/store/auth";
+const authStore = useAuthStore();
 
 const sidebarOpen = ref(false);
 
@@ -55,8 +57,6 @@ const toggleSidebar = () => {
 
 
 const logout = async () => {
-    localStorage.removeItem('authToken')
-    await nextTick();
-    router.push("/login");
+    authStore.logout()
   };
 </script>

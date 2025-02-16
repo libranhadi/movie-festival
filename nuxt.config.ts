@@ -21,4 +21,5 @@ export default defineNuxtConfig({
     jwt_secret: process.env.SECRET_KEY,
   },
   devtools: { enabled: true },
+  modules: ["@pinia/nuxt"],
 })

@@ -60,13 +60,14 @@
     import { ref, defineProps, defineEmits } from "vue";
     import { Form, Field } from "vee-validate";
     import * as yup from "yup";
+    import { useAuthStore } from "~/store/auth";
 
   const props = defineProps({
     showModal: Boolean,
     });
 
   const emit = defineEmits(["success", "close"]);
-  
+  const authStore = useAuthStore();
   const errorMessage = ref("");
   const successMessage = ref("");
   
@@ -89,7 +90,8 @@
       errorMessage.value = response.message;
     } else {
       if (response.token) {
-        localStorage.setItem("authToken", response.token);
+        authStore.setToken(response.token);
+        authStore.setUser(response.user);
       }
       errorMessage.value = "";
       successMessage.value = "User registered successfully.";

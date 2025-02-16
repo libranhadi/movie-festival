@@ -47,9 +47,12 @@
   import { ref } from "vue";
   import { Form, Field } from "vee-validate";
   import * as yup from "yup";
+  import { useAuthStore } from "~/store/auth";
+
   
   const errorMessage = ref("");
   const successMessage = ref("");
+  const authStore = useAuthStore();
   const emit = defineEmits(["success", "close"]);
   const props = defineProps({
     showModal: Boolean,
@@ -71,7 +74,8 @@
         errorMessage.value = response.message;
       } else {
         if (response.token) {
-          localStorage.setItem("authToken", response.token);
+          authStore.setToken(response.token);
+          authStore.setUser(response.user);
         }
         errorMessage.value = "";
         emit("success");

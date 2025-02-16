@@ -33,7 +33,7 @@ import * as yup from "yup";
 import { useFetch } from "#app";
 
 definePageMeta({
-  layout: "admin",
+  layout: 'admin',
   middleware: 'auth',
 });
 

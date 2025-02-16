@@ -46,5 +46,6 @@ export default defineEventHandler(async (event) => {
     success: true,
     message: "User registered successfully.",
     token : token,
+    user : {email, user_level}
   };
 });
