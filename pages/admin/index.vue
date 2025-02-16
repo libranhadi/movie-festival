@@ -80,6 +80,7 @@ import { ref, onMounted } from 'vue';
 
 definePageMeta({
   layout: 'admin',
+  middleware: 'auth',
 });
 
 const activeTab = ref('Most Voted Movie');
@@ -104,8 +105,8 @@ const votedUsers = ref([
 ]);
 
 onMounted(async () => {
-  const response = await fetch('api/dashboard');
-  const data = await response.json();
+  // const response = await fetch('api/dashboard');
+  // const data = await response.json();
 
 });
 </script>

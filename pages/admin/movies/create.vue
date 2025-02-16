@@ -34,6 +34,7 @@ import { useFetch } from "#app";
 
 definePageMeta({
   layout: "admin",
+  middleware: 'auth',
 });
 
 const router = useRouter();

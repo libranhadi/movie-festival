@@ -1,4 +1,4 @@
-import { supabase } from "~/utils/supabase";
+import { useSupabase } from "~/utils/supabase";
 
 interface QueryParams {
     page?: number;
@@ -8,7 +8,7 @@ interface QueryParams {
   
 export default defineEventHandler(async (event) => {
   let { page = 1, itemsPerPage = 10, searchQuery = '' } : QueryParams = getQuery(event);
-
+  const supabase = useSupabase()
   const { data, error, count = 1} : any = await supabase
     .from('movies')
     .select('*', { count: 'exact' })

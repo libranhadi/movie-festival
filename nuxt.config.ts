@@ -10,5 +10,15 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  devtools: { enabled: true }
+  runtimeConfig: {
+    public: {
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+    },
+    private: {
+      supabaseServiceRole: process.env.SUPABASE_SERVICE_ROLE,
+    },
+    jwt_secret: process.env.SECRET_KEY,
+  },
+  devtools: { enabled: true },
 })

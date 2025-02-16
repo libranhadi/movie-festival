@@ -1,8 +1,10 @@
-import { supabase } from "~/utils/supabase";
+import { useSupabase } from "~/utils/supabase";
 
 export default defineEventHandler(async (event) => {
   const method = event.node.req.method;
   const query = getQuery(event);
+  const supabase = useSupabase()
+
 
   if (method === "GET") {
     const { data, error } = query.id

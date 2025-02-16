@@ -30,7 +30,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 definePageMeta({
-  layout: 'admin' 
+  layout: 'admin',
+  middleware: 'auth',
 });
 
 const movies = ref([]);

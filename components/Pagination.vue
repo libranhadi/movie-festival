@@ -63,7 +63,6 @@
   const emit = defineEmits(["update:page"]);
   
   const goToPage = (n) => {
-    console.log(n)
     if (n >= 1 && n <= props.totalPages) {
       emit("update:page", n);
     }

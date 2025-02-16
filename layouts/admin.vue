@@ -45,6 +45,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { nextTick } from "vue";
 
 const sidebarOpen = ref(false);
 
@@ -52,7 +53,10 @@ const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value;
 };
 
-const logout = () => {
-  alert("Logging out...");
-};
+
+const logout = async () => {
+    localStorage.removeItem('authToken')
+    await nextTick();
+    router.push("/login");
+  };
 </script>
