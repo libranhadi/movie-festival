@@ -5,7 +5,6 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event);
   const supabase = useSupabase()
 
-
   if (method === "GET") {
     const { data, error } = query.id
       ? await supabase.from("movies").select("*").eq("id", query.id)

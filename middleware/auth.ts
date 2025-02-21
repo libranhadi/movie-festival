@@ -18,7 +18,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   if (authStore.user.authlevel !== "Admin") {
-    if (to.path !== "/home") {
+    if (to.path.startsWith("/admin")) {
       return navigateTo("/home");
     }
   }

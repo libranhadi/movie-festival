@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
-      supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+      supabaseAnonKey: process.env.SUPABASE_ANON_KEY
     },
     private: {
       supabaseServiceRole: process.env.SUPABASE_SERVICE_ROLE,

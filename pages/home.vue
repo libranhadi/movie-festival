@@ -1,20 +1,5 @@
   <template>
     <div>
-      <nav class="bg-gray-800 p-4 text-white flex justify-between items-center">
-        <h1 class="text-xl font-bold">Movies App</h1>
-        <div>
-          <NuxtLink v-if="authStore.user && authStore.user.authlevel === 'Admin'" 
-                    to="/admin" 
-                    class="ml-2 px-4 py-2 bg-blue-500 text-white rounded">
-            Dashboard
-          </NuxtLink>
-
-          <button v-if="!authStore.user" @click="showLoginModal = true" class="px-4 py-2 bg-blue-500 rounded">Login</button>
-          <button v-if="!authStore.user" @click="showRegisterModal = true" class="ml-2 px-4 py-2 bg-green-500 rounded">Register</button>
-          <button v-if="authStore.user" @click="logout" class="ml-2 px-4 py-2 bg-red-500 rounded">Logout</button>
-        </div>
-      </nav>
-
       <div class="mx-auto p-4 w-full">
         <input
           v-model="searchQuery"
@@ -36,7 +21,9 @@
             <p class="text-sm"><strong class="text-lg">Artists :</strong> {{ movie.artist }}</p>
             <p class="text-sm"><strong class="text-lg">Genres:</strong> {{ movie.genre }}</p>
             <p class="text-sm"><strong class="text-lg">Duration:</strong> {{ movie.duration }} minutes</p>
-            <a :href="movie.url" class="text-blue-500 mt-2 block"  v-if="authStore.user">Watch Now</a>
+            <p class="text-blue-500 mt-2 block" v-if="authStore.user">
+              <NuxtLink :to="`/movie/${movie.id}`" class="text-blue-500">Watch</NuxtLink>
+            </p>
           </div>
         </div>
 
@@ -48,17 +35,9 @@
         />
       </div>
 
-    <Modal v-if="showLoginModal" @close="showLoginModal = false">
-      <LoginForm @success="handleAuthSuccess" />
-    </Modal>
-
-    <Modal v-if="showRegisterModal" @close="showRegisterModal = false">
-      <RegisterForm @success="handleRegistration" />
-    </Modal>
-    <div v-if="successMessage" class="fixed bottom-5 right-5 bg-green-500 text-white p-3 rounded shadow-lg">
-      {{ successMessage }}
-    </div>
-
+      <div v-if="successMessage" class="fixed bottom-5 right-5 bg-green-500 text-white p-3 rounded shadow-lg">
+        {{ successMessage }}
+      </div>
     </div>
   </template>
 
@@ -66,9 +45,11 @@
   import { ref, onMounted, watch, computed } from "vue";
   import { useDebounceFn } from "@vueuse/core"; 
   import { useAuthStore } from "~/store/auth"
-  import Modal from "@/components/Modal.vue";
-  import LoginForm from "@/components/LoginForm.vue";
-  import RegisterForm from "@/components/RegisterForm.vue";
+
+
+  definePageMeta({
+    layout: 'user',
+  });
 
 
   const user = useState("user", () => null);
@@ -77,8 +58,7 @@
   const currentPage = ref(1);
   const totalMovies = ref(0);
   const itemsPerPage = 10;
-  const showLoginModal = ref(false);
-  const showRegisterModal = ref(false);
+
   const successMessage = ref("");
   const authStore = useAuthStore();
 
@@ -99,31 +79,7 @@
     await authStore.fetchUser();
   };
 
-
-  const handleRegistration = () => {
-    checkUser();
-    showLoginModal.value = false;
-    showRegisterModal.value = false;
-    successMessage.value = "User registered successfully."; 
-
-    setTimeout(() => {
-      successMessage.value = "";
-    }, 3000);
-  };
-  const handleAuthSuccess = () => {
-    checkUser();
-    showLoginModal.value = false;
-    successMessage.value = "User login successfully."; 
-
-    setTimeout(() => {
-      successMessage.value = "";
-    }, 3000);
-  };
-
-  const logout = async () => {
-    authStore.setUser(null)
-    authStore.logout();
-  };
+ 
 
   onMounted(() => {
     checkUser();
