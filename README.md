@@ -78,8 +78,19 @@ CREATE TABLE watch_movies (
 );
 ```
 
-Notes : during development cannot access the database make the database disable row level security first.
+## Usage
+User Authentication : 
+1. Sign Up: Users can sign up with their email and password. The password is hashed using Bcrypt before being stored in the database.
+2. Sign In: Users can log in with their email and password. Upon successful login, a JWT token is generated and returned to the client.
 
+Movie Management
+1. Create Movie: Users can create a new movie by providing a title, description, and video URL. The video file is uploaded to Supabase storage, and the generated URL is used in the movie creation process.
+2. Vote on Movie: Users can vote on movies with either an upvote (1) or a downvote (-1).
+
+Video Storage
+1. When creating a movie, the video file is uploaded to Supabase storage using the Supabase client. The generated URL is then used in the movie creation process.
+
+Notes : during development cannot access the database make the database disable row level security first.
 ```bash
 DO $$ 
 DECLARE 
@@ -91,5 +102,3 @@ BEGIN
     END LOOP;
 END $$;
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
